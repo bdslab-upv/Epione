@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load widget_tweaks static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/favico.png' %}">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+              customblue: '#1dc1dd', // blue color for CANCERLESS
+              custompink: '#F75272' //pink color for CANCERLESS
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body>
+<!--hover:bg-gray-100-->
+<nav class="bg-customblue">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="{% url 'procesar' %}">
+      <span class="self-center text-5xl md:hover:text-blue-900 font-semibold text-white whitespace-nowrap">Epione</span>
+    </a>
+
+    <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-black rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
+        <span class="sr-only">Open main menu</span>
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+        </svg>
+    </button>
+
+    <div class="hidden w-full md:block md:w-auto" id="navbar-default">
+      <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-customblue">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+            <p class="block py-2 px-3 text-white bg-customblue rounded hover:bg-blue-500 md:hover:bg-transparent mb-2 md:mb-0 md:border-0 md:hover:text-blue-500 md:p-0">
+                {{ request.user.username }}
+            </p>
+        </li>
+        <li>
+          <a href="{% url 'logout' %}" class="block py-2 px-3 text-white bg-customblue rounded hover:bg-blue-500 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Logout</a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'login' %}" class="block py-2 px-3 text-white rounded hover:bg-blue-500 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Login</a>
+        </li>
+        <li>
+          <a href="{% url 'signup' %}" class="block py-2 px-3 text-black rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-500 md:p-0">Signup</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+<footer class="bg-black mt-auto">
+    <div class="w-full mx-auto max-w-screen-xl p-8 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-12">
+        <div class="flex-shrink-0">
+            <img class="h-auto max-w-xs" src="{% static 'img/eu.png' %}" alt="EU Logo">
+        </div>
+
+        <div class="flex-1 text-white">
+            <span class="text-base sm:text-center">
+                CANCERLESS has been funded by the European Union’s Horizon 2020 Programme under the Grant Agreement GA 965351.
+            </span>
+        </div>
+
+        <div class="flex-1 text-white">
+            <p>
+                <em class="text-base sm:text-center">
+                    The contents of this website are the sole responsibility of the CANCERLESS consortium and do not necessarily reflect the opinion of the European Union.
+                </em>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleButton = document.querySelector('[data-collapse-toggle="navbar-default"]');
+        const navbar = document.getElementById('navbar-default');
+
+        toggleButton.addEventListener('click', function() {
+            const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+            toggleButton.setAttribute('aria-expanded', !isExpanded);
+            navbar.classList.toggle('hidden');
+        });
+    });
+</script>
+</body>
+</html>
+
+
+

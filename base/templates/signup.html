@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load widget_tweaks static %}
+{% block title %} Register {% endblock %}
+
+{% block content %}
+    <div class="container mx-auto px-8 min-h-screen">
+        <div class="max-w-md mx-auto bg-black/5 p-6 shadow-lg rounded-lg mt-10">
+            <h2 class="text-center text-4xl font-bold text-custompink">Register form</h2>
+            <form class="max-w-sm mx-auto mt-10" method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="mb-5">
+                    <label class="block mb-2 text-lg font-medium text-gray-900">
+                        {{ form.username.label_tag }}
+                    </label>
+                    {{ form.username|add_class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="mb-5">
+                    <label class="block mb-2 text-lg font-medium text-gray-900">
+                        {{ form.password1.label_tag }}
+                    </label>
+                    {{ form.password1|add_class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="mb-5">
+                    <label class="block mb-2 text-lg font-medium text-gray-900">
+                        {{ form.password2.label_tag }}
+                    </label>
+                    {{ form.password2|add_class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" }}
+                    {{ form.password2.errors }}
+                </div>
+                <button type="submit" class="text-white bg-customblue hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-10 py-2.5 text-center">Sign Up</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+

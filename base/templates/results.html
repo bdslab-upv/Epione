@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load widget_tweaks static %}
+{% block title %} People Simulation {% endblock %}
+
+ {% block content %}
+    <div class="container mx-auto px-8 mt-8 rounded-lg mt-10 min-h-screen">
+         <h1 class="font-semibold text-4xl text-custompink text-center">General Overview</h1>
+         <h2 class="font-semibold text-xl text-black mt-10 text-left">Percentage of Adherence at the end of the intervention: {{ adherence.Adherence.0 }}</h2>
+
+        <div class="relative overflow-x-auto sm:rounded-lg mt-20">
+            <h2 class="font-bold text-xl text-black text-left mb-3">Wellbeing outcomes</h2>
+            <table class="w-full text-sm text-center rtl:text-center text-gray-500" >
+                <thead class="text-s text-white uppercase bg-customblue">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Questions</th>
+                        <th scope="col" class="px-6 py-3">Percentage of improvement at the end of the intervention</th>
+                        <th scope="col" class="px-6 py-3">Mean (std) of these increment</th>
+                        <th scope="col"class="px-6 py-3">Statistically Significant (Wilcoxon test)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, values in simHealth.items %}
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">
+                                {{ key }}
+                            </th>
+                            <td class="px-6 py-4 text-center">{{ values.0 }}</td>
+                            <td class="px-6 py-4 text-center">{{ values.1 }}</td>
+                            <td class="px-6 py-4 text-center {% if values.2 == 'Statistically significant' %}
+                            text-green-500
+                        {% elif values.2 == 'Non-statistically significant' %}
+                            text-red-500
+                        {% endif %}"> {{ values.2 }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+        <div class="relative overflow-x-auto sm:rounded-lg mt-20 mb-20">
+            <h2 class="font-bold text-xl text-black text-left mb-3">Use of Healthcare services</h2>
+                <table class="w-full text-sm text-center rtl:text-center text-gray-500">
+                    <thead class="text-s text-white uppercase bg-customblue tooltip-target">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">Questions</th>
+                            <th scope="col" class="px-6 py-3">Percentage of improvement at the end of the intervention</th>
+                            <th scope="col" class="px-6 py-3">Mean (std) of these increment</th>
+                            <th scope="col"class="px-6 py-3">Statistically Significant (Wilcoxon test)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for key, values in simSocial.items %}
+                            <tr class="bg-white border-b hover:bg-gray-50">
+                                <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">{{ key }}</th>
+                                <td class="px-6 py-4 text-center">{{ values.0 }}</td>
+                                <td class="px-6 py-4 text-center">{{ values.1 }}</td>
+                                <td class="px-6 py-4 text-center {% if values.2 == 'Statistically significant' %}
+                                    text-green-500
+                                {% elif values.2 == 'Non-statistically significant' %}
+                                    text-red-500
+                                {% endif %}">{{ values.2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+
+        <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white text-gray-900" data-inactive-classes="text-gray-500">
+            <h2 id="accordion-flush-heading-1">
+                <button type="button" class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3" data-accordion-target="#accordion-flush-body-1" aria-expanded="false" aria-controls="accordion-flush-body-1">
+                    <span>Other outcomes</span>
+                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                </button>
+            </h2>
+
+            <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+                <table class="w-full text-sm text-center rtl:text-center text-gray-500">
+                        <thead class="text-s text-white uppercase bg-customblue">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Questions</th>
+                                <th scope="col" class="px-6 py-3">Percentage of improvement at the end of the intervention</th>
+                                <th scope="col" class="px-6 py-3">Mean (std) of these increment</th>
+                                <th scope="col"class="px-6 py-3">Statistically Significant (Wilcoxon test)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key, values in rest_variables.items %}
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">{{ key }}</th>
+                                    <td class="px-6 py-4 text-center">{{ values.0 }}</td>
+                                    <td class="px-6 py-4 text-center">{{ values.1 }}</td>
+                                    <td class="px-6 py-4 text-center {% if values.2 == 'Statistically significant' %}
+                                    text-green-500
+                                {% elif values.2 == 'Non-statistically significant' %}
+                                    text-red-500
+                                {% endif %}">{{ values.2 }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                    </table>
+            </div>
+
+
+            <h2 id="accordion-flush-heading-2">
+                <button type="button"
+                    class="flex items-center justify-between w-full py-5 font-medium rtl:text-right text-gray-500 border-b border-gray-200 gap-3"
+                    data-accordion-target="#accordion-flush-body-2" aria-expanded="false" aria-controls="accordion-flush-body-2">
+                    <span>Influence of the characteristics that make up each outcome on that variable</span>
+                    <svg data-accordion-icon class="w-3 h-3 rotate-0 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                </button>
+            </h2>
+            <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-1">
+                    <div class="py-5 border-b border-gray-200">
+                        <div class="grid grid-cols-2 gap-4">
+                            {% for image in images %}
+                            <div class="rounded overflow-hidden shadow-lg">
+                                <img src="{{ image }}" alt="Image" class="w-full h-auto object-cover mx-auto mt-4">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+
+     <!-- Contenedor del tooltip -->
+    <div id="tooltip" class="hidden absolute bg-gray-700 text-white text-xs px-4 py-2 rounded-lg"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+
+
+
+     <script>
+        const tooltipTargets = document.querySelectorAll('.tooltip-target');
+        const tooltip = document.getElementById('tooltip');
+
+        tooltipTargets.forEach(target => {
+            target.addEventListener('mouseover', (event) => {
+                const rect = event.target.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px'; // Arriba del elemento
+
+                //tooltip.textContent = 'Detailed information for ' + event.target.textContent;
+                tooltip.textContent = 'In the homeless population, data on increases in health services do not always mean an improvement/decrease in the quality of care.';
+                tooltip.classList.remove('hidden');
+            });
+
+            target.addEventListener('mouseout', () => {
+                tooltip.classList.add('hidden');
+            });
+        });
+    </script>
+
+ {% endblock %}
+
+
+
+
